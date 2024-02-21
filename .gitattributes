@@ -1,0 +1,4 @@
+*     text=auto
+*.txt text
+*.bat text eol=crlf charset=utf-8
+*.cmd text eol=crlf charset=utf-8

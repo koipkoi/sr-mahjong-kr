@@ -1,0 +1,6 @@
+.vs/
+.vscode/
+.idea/
+
+*.gba
+*.sav

@@ -1,0 +1,7 @@
+name: scrproc
+
+environment:
+  sdk: ">=3.0.0"
+
+dependencies:
+  crypto: ^3.0.1

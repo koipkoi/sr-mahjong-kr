@@ -1,0 +1,11 @@
+.vs/
+.vscode/
+.idea/
+.dart_tool/
+
+*.tbl
+*.exe
+
+.packages
+
+pubspec.lock

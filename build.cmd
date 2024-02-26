@@ -7,7 +7,7 @@ if not exist "baserom.gba" (
   goto exit
 )
 
-tools\scrproc.exe charmap.tbl "res\script" "asm\script.g.asm"
+tools\scrproc.exe charmap.txt "res\script" "asm\script.g.asm"
 tools\armips.exe "asm\main.asm"
 pause
 

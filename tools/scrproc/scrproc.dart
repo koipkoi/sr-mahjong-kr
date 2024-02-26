@@ -6,7 +6,7 @@ Future<int> main(List<String> args) async {
   if (args.length != 3) {
     print(
       'Usage : '
-      'textproc [tbl file] [script directory] [output filename]',
+      'scrproc [tbl file] [script directory] [output filename]',
     );
     return -1;
   }
@@ -72,12 +72,13 @@ Future<bool> incremental(
       if (fileMd5s[key] != generatedFileMd5s[key]) {
         return true;
       }
+      fileMd5s.remove(key);
     }
   } else {
     return true;
   }
 
-  return false;
+  return fileMd5s.isNotEmpty;
 }
 
 Future<bool> process(
@@ -86,16 +87,14 @@ Future<bool> process(
   Directory txtDirectory,
 ) async {
   // 테이블 로딩
-  final characterToValueTable = <String, int>{};
+  final characterToValueTable = <String, String>{};
   for (final line in await tableFile.readAsLines()) {
     if (line.isEmpty || !line.contains('=')) {
       continue;
     }
 
     final keyValue = line.split('=');
-    final value = int.parse(keyValue[0], radix: 16);
-    final character = keyValue[1];
-    characterToValueTable[character] = value;
+    characterToValueTable[keyValue[1]] = keyValue[0];
   }
 
   final fileMd5s = <String, String>{};
@@ -134,7 +133,7 @@ Future<bool> process(
             for (final c in sortedCharacters) {
               newText = newText.replaceAll(
                 c,
-                characterToValueTable[c]!.toRadixString(16).padLeft(2, '0'),
+                characterToValueTable[c]!,
               );
             }
 
@@ -160,10 +159,10 @@ Future<bool> process(
             }
           }
           textStringBuffer.write('\n');
-        } catch (_) {
+        } catch (e) {
           print(
             '변환할 수 없습니다.'
-            '(${entity.path}, $item)',
+            '(${entity.path}, $item, $e)',
           );
           return false;
         }
